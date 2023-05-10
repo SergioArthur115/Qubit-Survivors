@@ -29,7 +29,7 @@ public class BackgroundQS extends JPanel {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -37,7 +37,11 @@ public class BackgroundQS extends JPanel {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         System.out.println("background");
     }
-    
+
+    public void draw(Graphics g) {
+        g.drawImage(image, 0, 0, null);
+    }
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(image.getWidth(), image.getHeight());

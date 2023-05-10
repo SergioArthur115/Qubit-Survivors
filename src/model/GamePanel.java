@@ -52,7 +52,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         BackgroundQS background = new BackgroundQS();
-        background.paintComponent(g);
+        //background.paintComponent(g);
+        background.draw(g);
         character.draw(g);
 
         for (Enemy enemy : enemies) {
