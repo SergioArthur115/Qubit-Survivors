@@ -14,19 +14,17 @@ public class Item {
     private String nomeItem;
     private String descricaoItem;
     private String tipoItem;
-    private int valorItem;
     private String raridadeItem;
     private String caracItem;
 
     public Item() {
     }
 
-    public Item(int idItem, String nomeItem, String descricaoItem, String tipoItem, int valorItem, String raridadeItem, String caracItem) {
+    public Item(int idItem, String nomeItem, String descricaoItem, String tipoItem, String raridadeItem, String caracItem) {
         this.idItem = idItem;
         this.nomeItem = nomeItem;
         this.descricaoItem = descricaoItem;
         this.tipoItem = tipoItem;
-        this.valorItem = valorItem;
         this.raridadeItem = raridadeItem;
         this.caracItem = caracItem;
     }
@@ -63,14 +61,6 @@ public class Item {
         this.tipoItem = tipoItem;
     }
 
-    public int getValorItem() {
-        return valorItem;
-    }
-
-    public void setValorItem(int valorItem) {
-        this.valorItem = valorItem;
-    }
-
     public String getRaridadeItem() {
         return raridadeItem;
     }
@@ -89,7 +79,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "idItem=" + idItem + ", nomeItem=" + nomeItem + ", descricaoItem=" + descricaoItem + ", tipoItem=" + tipoItem + ", valorItem=" + valorItem + ", raridadeItem=" + raridadeItem + ", caracItem=" + caracItem + '}';
+        return "Item{" + "idItem=" + idItem + ", nomeItem=" + nomeItem + ", descricaoItem=" + descricaoItem + ", tipoItem=" + tipoItem + ", raridadeItem=" + raridadeItem + ", caracItem=" + caracItem + '}';
     }
     
     
