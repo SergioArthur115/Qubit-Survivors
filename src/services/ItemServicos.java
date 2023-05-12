@@ -15,8 +15,8 @@ import model.Item;
  */
 public class ItemServicos {
 
-    public void BuscarItem(String name) {
+    public void BuscarItens(String name) {
         ItemDAO iDAO = DAOFactory.getItemDAO();
-        iDAO.getItemByName(name);
+        iDAO.getItensDAO();
     }
 }

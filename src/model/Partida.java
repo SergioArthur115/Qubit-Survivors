@@ -19,12 +19,12 @@ public class Partida {
     private LocalDate dataPartida;
     private int pontuacao;
     private LocalDate duracao;
-    private int idJogador;
+    private Jogador idJogador;
 
     public Partida() {
     }
 
-    public Partida(int idPartida, String nomeMapa, String nomeJogador, LocalDate dataPartida, int pontuacao, LocalDate duracao, int idJogador) {
+    public Partida(int idPartida, String nomeMapa, String nomeJogador, LocalDate dataPartida, int pontuacao, LocalDate duracao, Jogador idJogador) {
         this.idPartida = idPartida;
         this.nomeMapa = nomeMapa;
         this.nomeJogador = nomeJogador;
@@ -82,11 +82,11 @@ public class Partida {
         this.duracao = duracao;
     }
 
-    public int getIdJogador() {
+    public Jogador getIdJogador() {
         return idJogador;
     }
 
-    public void setIdJogador(int idJogador) {
+    public void setIdJogador(Jogador idJogador) {
         this.idJogador = idJogador;
     }
 

@@ -5,10 +5,19 @@
  */
 package services;
 
+import dao.DAOFactory;
+import dao.PartidaDAO;
+import model.Partida;
+
 /**
  *
  * @author 182120042
  */
 public class PartidaServicos {
+
+    public void addPartida(Partida partida) {
+        PartidaDAO pDAO = DAOFactory.getPartidaDAO();
+        pDAO.addPartidaDAO(partida);
+    }
     
 }

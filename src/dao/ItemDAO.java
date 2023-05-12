@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Item;
 
 /**
@@ -17,26 +18,28 @@ import model.Item;
  * @author 182120042
  */
 public class ItemDAO {
-        public Item getItemByName(String nome_item) {
-        Item i = new Item();
+
+    public ArrayList<Item> getItensDAO() {
+        ArrayList<Item> itens = new ArrayList<>();
         try {
             Connection con = Conexao.getConexao();
-            String sql = "select * from itens where nome_item = ?";
+            String sql = "select * from itens";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, nome_item);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
+                Item i = new Item();
                 i.setIdItem(rs.getInt("id_item"));
                 i.setNomeItem(rs.getString("nome_item"));
                 i.setDescricaoItem(rs.getString("descricao_item"));
                 i.setTipoItem(rs.getString("tipo_item"));
                 i.setRaridadeItem(rs.getString("raridade_item"));
                 i.setCaracItem(rs.getString("carac_item"));
+                itens.add(i);
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao consultar Item!\n"
+            System.out.println("Erro ao consultar Itens!\n"
                     + ex.getMessage());
         }
-        return i;
+        return itens;
     }
 }

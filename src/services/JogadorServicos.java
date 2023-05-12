@@ -14,8 +14,13 @@ import model.Jogador;
  * @author 182120042
  */
 public class JogadorServicos {
-        public void addJogador(Jogador cVO) {
+
+    public void addJogador(Jogador cVO) {
         JogadorDAO jDAO = DAOFactory.getJogadorDAO();
         jDAO.addJogadorDAO(cVO);
+    }
+    public int getIDJogadorDAO(String nome_jogador) {
+        JogadorDAO jDAO = DAOFactory.getJogadorDAO();
+        return jDAO.getIDJogadorDAO(nome_jogador);
     }
 }
