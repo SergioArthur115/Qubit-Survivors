@@ -12,6 +12,7 @@ package model;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +35,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public GamePanel() {
         //setPreferredSize(new Dimension(600, 600));
         //setBackground(Color.WHITE);
-
         character = new Character(250, 250, 50);
 
         enemies = new ArrayList<>();
@@ -132,13 +132,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Move o personagem
-        //character.move(WIDTH, WIDTH);
+        // Obtenha a posição atual do personagem
+        Point personPosition = new Point(character.getX(), character.getY());
 
-        // Move os inimigos
+        // Para cada inimigo, calcule a direção em que ele deve se mover
         for (Enemy enemy : enemies) {
-            //enemy.move(WIDTH, WIDTH);
+            // Calcule a distância entre o personagem e o inimigo
+            double distance = Math.sqrt(Math.pow(personPosition.x - enemy.getX(), 2) + Math.pow(personPosition.y - enemy.getY(), 2));
+
+            // Determine a direção em que o inimigo deve se mover
+            double directionX = (personPosition.x - enemy.getX()) / distance;
+            double directionY = (personPosition.y - enemy.getY()) / distance;
+
+            // Multiplique o vetor de direção pelo valor da velocidade dos inimigos
+            double speed = 5.0; // velocidade dos inimigos
+            double moveX = directionX * speed;
+            double moveY = directionY * speed;
+
+            // Adicione o vetor de movimento à posição atual do inimigo para atualizar sua posição
+            enemy.move((int) moveX, (int) moveY);
         }
+
         checkCollisions();
 
     }

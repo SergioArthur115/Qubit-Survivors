@@ -47,4 +47,13 @@ public class Enemy {
     public Rectangle getBounds() {
         return new Rectangle(x + 5, y + 5, size - 10, size - 10);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
 }

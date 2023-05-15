@@ -42,4 +42,13 @@ public class Character {
     public Rectangle getBounds() {
         return new Rectangle(x + 10, y + 10, size - 20, size - 20);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
 }
