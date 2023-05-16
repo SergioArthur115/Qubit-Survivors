@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,11 +36,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Character character;
     private ArrayList<Enemy> enemies;
     private ArrayList<Item> itens;
+    private ArrayList<Projectile> projectiles;
     private Timer timer;
 
     public GamePanel() {
+        projectiles = new ArrayList<>();
+        System.out.println("Lista de projéteis inicializada com sucesso: " + projectiles);
         itens = itemS.BuscarItens();
-        character = new Character(250, 250, 50);
+        character = new Character(250, 250, 50, projectiles);
+
+        character.setProjectiles(projectiles);
 
         enemies = new ArrayList<>();
         enemies.add(new Enemy(100, 100, 50, "images/enemy.png"));
@@ -50,8 +56,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         timer = new Timer(10, this);
         timer.start();
 
+        // Cria um temporizador que dispara um projétil a cada 2 segundos
+        timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                teste();
+                repaint();
+            }
+        });
+        timer.start();
+
         addKeyListener(this);
         setFocusable(true);
+    }
+
+    public void teste() {
+        for (int i = projectiles.size() - 1; i >= 0; i--) {
+            Projectile projectile = projectiles.get(i);
+            projectile.move();
+            if (projectile.getX() < 0 || projectile.getX() > getWidth() || projectile.getY() < 0 || projectile.getY() > getHeight()) {
+                projectiles.remove(i);
+            }
+        }
     }
 
     @Override
@@ -71,6 +97,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             item.draw(g);
 
         }
+        for (Projectile projectile : projectiles) {
+            System.out.println("Desenhando projétil: " + projectile);
+            projectile.draw(g);
+        }
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        int dx = mouseX - character.getX();
+        int dy = mouseY - character.getY();
+        character.setProjectileDirection(Math.atan2(dy, dx));
     }
 
     private boolean upPressed, downPressed, leftPressed, rightPressed;
