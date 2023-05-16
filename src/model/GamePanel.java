@@ -12,6 +12,7 @@ package model;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -33,8 +34,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
 
     public GamePanel() {
-        //setPreferredSize(new Dimension(600, 600));
-        //setBackground(Color.WHITE);
         character = new Character(250, 250, 50);
 
         enemies = new ArrayList<>();

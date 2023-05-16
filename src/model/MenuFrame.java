@@ -38,16 +38,16 @@ public class MenuFrame extends JFrame implements ActionListener {
         mainPanel.add(jogarButton, BorderLayout.CENTER);
 
         // Define o painel principal como o conteúdo do frame
-        //setContentPane(mainPanel);
+        setContentPane(mainPanel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // Cria a tela do jogo e a exibe
         GamePanel gamePanel = new GamePanel();
-
         setContentPane(gamePanel);
         revalidate();
+        gamePanel.requestFocusInWindow();
     }
 
     public static void main(String[] args) {
