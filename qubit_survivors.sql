@@ -32,3 +32,12 @@ create table jogadores_itens(
     FOREIGN KEY (id_jogador) REFERENCES jogadores(id_jogador),
     FOREIGN KEY (id_item) REFERENCES itens(id_item)
 );
+
+INSERT INTO itens (nome_item,descricao_item,tipo_item,raridade_item,carac_item) VALUES
+	('Espada de Qubits','Uma espada feita de qubits','Arma','Comum','Dano = 2 && velocidade = 1.0'),
+	('Calculadora','Uma calculadora de qubits','Utilidade','Incomum','Dano += 1.5'),
+	('Machado de Qubits','Um machado feito de qubits','Arma','Raro','Dano = 4 && frequencia = 0.5'),
+	('Pistola de Qubits','Uma pistola feita de qubits','Arma','Épico','Dano = 10 && frequencia = 2.0'),
+	('Botas de Qubit','Botas feitas de Qubits','Utilidade','Lendário','velocidade +=2');
+    
+    select * from itens;

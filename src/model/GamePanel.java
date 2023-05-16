@@ -26,19 +26,26 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import services.ItemServicos;
+import services.ServicosFactory;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
+    ItemServicos itemS = ServicosFactory.getItemServicos();
     private Character character;
     private ArrayList<Enemy> enemies;
+    private ArrayList<Item> itens;
     private Timer timer;
 
     public GamePanel() {
+        itens = itemS.BuscarItens();
         character = new Character(250, 250, 50);
 
         enemies = new ArrayList<>();
         enemies.add(new Enemy(100, 100, 50, "images/enemy.png"));
         enemies.add(new Enemy(400, 400, 50, "images/enemy1.png"));
+
+        itens.add(new Item(100, 100, 50, "images/item.png"));
 
         timer = new Timer(10, this);
         timer.start();
@@ -57,6 +64,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
+
+        }
+
+        for (Item item : itens) {
+            item.draw(g);
 
         }
     }
@@ -124,6 +136,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             if (characterBounds.intersects(enemyBounds)) {
                 System.out.println("Game Over!");
                 timer.stop();
+            }
+        }
+        for (Item item : itens) {
+            Rectangle ItemBounds = item.getBounds();
+
+            if (characterBounds.intersects(ItemBounds)) {
+                System.out.println("Item!");
             }
         }
         repaint();

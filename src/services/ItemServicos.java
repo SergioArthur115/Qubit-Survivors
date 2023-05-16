@@ -7,6 +7,7 @@ package services;
 
 import dao.DAOFactory;
 import dao.ItemDAO;
+import java.util.ArrayList;
 import model.Item;
 
 /**
@@ -15,8 +16,8 @@ import model.Item;
  */
 public class ItemServicos {
 
-    public void BuscarItens(String name) {
-        ItemDAO iDAO = DAOFactory.getItemDAO();
-        iDAO.getItensDAO();
+    public ArrayList<Item> BuscarItens() {
+        ItemDAO iDAO = DAOFactory.getItemDAO(); 
+        return iDAO.getItensDAO();
     }
 }

@@ -5,17 +5,27 @@
  */
 package model;
 
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author 182120042
  */
 public class Item {
+
     private int idItem;
     private String nomeItem;
     private String descricaoItem;
     private String tipoItem;
     private String raridadeItem;
     private String caracItem;
+    private int x, y, size;
+    private BufferedImage image;
 
     public Item() {
     }
@@ -27,6 +37,18 @@ public class Item {
         this.tipoItem = tipoItem;
         this.raridadeItem = raridadeItem;
         this.caracItem = caracItem;
+    }
+
+    public Item(int x, int y, int size, String imagePath) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+
+        try {
+            image = ImageIO.read(new File(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getIdItem() {
@@ -77,10 +99,20 @@ public class Item {
         this.caracItem = caracItem;
     }
 
-    @Override
-    public String toString() {
-        return "Item{" + "idItem=" + idItem + ", nomeItem=" + nomeItem + ", descricaoItem=" + descricaoItem + ", tipoItem=" + tipoItem + ", raridadeItem=" + raridadeItem + ", caracItem=" + caracItem + '}';
+    public void draw(Graphics g) {
+        g.drawImage(image, x, y, size, size, null);
     }
-    
-    
+
+    public Rectangle getBounds() {
+        return new Rectangle(x + 5, y + 5, size - 10, size - 10);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
 }
