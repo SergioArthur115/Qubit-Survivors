@@ -20,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +32,7 @@ import javax.swing.Timer;
 import services.ItemServicos;
 import services.ServicosFactory;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 
     ItemServicos itemS = ServicosFactory.getItemServicos();
     private Character character;
@@ -41,7 +43,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public GamePanel() {
         projectiles = new ArrayList<>();
-        System.out.println("Lista de projéteis inicializada com sucesso: " + projectiles);
         itens = itemS.BuscarItens();
         character = new Character(250, 250, 50, projectiles);
 
@@ -67,6 +68,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         timer.start();
 
         addKeyListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
         setFocusable(true);
     }
 
@@ -84,7 +87,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         BackgroundQS background = new BackgroundQS();
-        //background.paintComponent(g);
         background.draw(g);
         character.draw(g);
 
@@ -98,7 +100,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         }
         for (Projectile projectile : projectiles) {
-            System.out.println("Desenhando projétil: " + projectile);
             projectile.draw(g);
         }
     }
@@ -109,6 +110,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int dx = mouseX - character.getX();
         int dy = mouseY - character.getY();
         character.setProjectileDirection(Math.atan2(dy, dx));
+        System.out.println(mouseX);
+        System.out.println(mouseY);
+        System.out.println(dx);
+        System.out.println(dy);
     }
 
     private boolean upPressed, downPressed, leftPressed, rightPressed;
@@ -211,6 +216,36 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         checkCollisions();
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent me) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

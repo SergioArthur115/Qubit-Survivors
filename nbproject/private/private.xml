@@ -3,19 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/dao/PartidaDAO.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/services/JogadorServicos.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/dao/DAOFactory.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/services/JogadorItemServicos.java</file>
             <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/model/MenuFrame.java</file>
             <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/model/GamePanel.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/services/ItemServicos.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/dao/JogadorDAO.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/services/ServicosFactory.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/dao/ItemDAO.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/services/PartidaServicos.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/model/GameFrame.java</file>
-            <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/dao/JogadorItemDAO.java</file>
             <file>file:/C:/Users/182120042/Documents/NetBeansProjects/QubitSurvivors/src/qubitsurvivors/QubitSurvivors.java</file>
         </group>
     </open-files>

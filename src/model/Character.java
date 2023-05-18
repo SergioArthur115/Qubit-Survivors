@@ -24,7 +24,7 @@ public class Character {
     private double projectileDirection;
     private ArrayList<Projectile> projectiles;
 
-    public Character(int x, int y, int size,ArrayList<Projectile> projectiles) {
+    public Character(int x, int y, int size, ArrayList<Projectile> projectiles) {
         this.x = x;
         this.y = y;
         this.size = size;
@@ -71,15 +71,14 @@ public class Character {
     public double getProjectileDirection() {
         return projectileDirection;
     }
-    
+
     public void setProjectileDirection(double projectileDirection) {
         this.projectileDirection = projectileDirection;
     }
 
     public void fire() {
-        System.out.println("fire");
-        int speed = 0;
-        Projectile projectile = new Projectile(x, y, size, speed, speed);
+        int speed = 1;
+        Projectile projectile = new Projectile(x, y, size, projectileDirection, speed);
         projectiles.add(projectile);
     }
 

@@ -23,17 +23,16 @@ public class Projectile {
     private double direction;
     private Image image;
 
-    public Projectile(int x, int y, int size, int mouseX, int mouseY) {
+    public Projectile(int x, int y, int size, double direction, int speed) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.direction = direction;
-        
+
         // Calcula a direção do projétil com base na posição atual do personagem e na posição do mouse
-        double direction = Math.atan2(mouseY - y, mouseX - x);
         x = (int) (Math.cos(direction) * speed);
         y = (int) (Math.sin(direction) * speed);
-        
+
         try {
             image = ImageIO.read(new File("images/projectile.png"));
         } catch (IOException e) {
@@ -59,5 +58,4 @@ public class Projectile {
     public int getY() {
         return y;
     }
-
 }
