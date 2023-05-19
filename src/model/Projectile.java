@@ -6,6 +6,8 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -17,45 +19,48 @@ import javax.swing.ImageIcon;
  */
 public class Projectile {
 
-    private int x;
-    private int y;
-    private int speed;
-    private double direction;
-    private Image image;
+    private int x, y, size;
+    private BufferedImage image;
 
-    public Projectile(int x, int y, int size, double direction, int speed) {
+    public Projectile(int x, int y, int size, String imagePath) {
         this.x = x;
         this.y = y;
-        this.speed = speed;
-        this.direction = direction;
-
-        // Calcula a direção do projétil com base na posição atual do personagem e na posição do mouse
-        x = (int) (Math.cos(direction) * speed);
-        y = (int) (Math.sin(direction) * speed);
+        this.size = size;
 
         try {
-            image = ImageIO.read(new File("images/projectile.png"));
+            image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void move() {
-        int dx = (int) (speed * Math.cos(direction));
-        int dy = (int) (speed * Math.sin(direction));
+    public void move(int dx, int dy) {
         x += dx;
         y += dy;
     }
 
     public void draw(Graphics g) {
-        g.drawImage(image, x, y, null);
+        g.drawImage(image, x, y, size, size, null);
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x + 5, y + 5, size - 10, size - 10);
     }
 
     public int getX() {
         return x;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public int getY() {
         return y;
     }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
 }

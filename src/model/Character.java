@@ -21,23 +21,11 @@ public class Character {
     private int x, y, size;
     private BufferedImage image;
     private Timer timer;
-    private double projectileDirection;
-    private ArrayList<Projectile> projectiles;
 
-    public Character(int x, int y, int size, ArrayList<Projectile> projectiles) {
+    public Character(int x, int y, int size) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.projectileDirection = 0;
-        this.projectiles = projectiles;
-
-        this.timer = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                fire();
-            }
-        });
-        this.timer.start();
 
         try {
             image = ImageIO.read(new File("images/charac.png"));
@@ -66,24 +54,6 @@ public class Character {
 
     public int getY() {
         return y;
-    }
-
-    public double getProjectileDirection() {
-        return projectileDirection;
-    }
-
-    public void setProjectileDirection(double projectileDirection) {
-        this.projectileDirection = projectileDirection;
-    }
-
-    public void fire() {
-        int speed = 1;
-        Projectile projectile = new Projectile(x, y, size, projectileDirection, speed);
-        projectiles.add(projectile);
-    }
-
-    public void setProjectiles(ArrayList<Projectile> projectiles) {
-        this.projectiles = projectiles;
     }
 
 }

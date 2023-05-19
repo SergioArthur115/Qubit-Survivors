@@ -42,11 +42,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private Timer timer;
 
     public GamePanel() {
-        projectiles = new ArrayList<>();
-        itens = itemS.BuscarItens();
-        character = new Character(250, 250, 50, projectiles);
 
-        character.setProjectiles(projectiles);
+        itens = itemS.BuscarItens();
+        character = new Character(250, 250, 50);
 
         enemies = new ArrayList<>();
         enemies.add(new Enemy(100, 100, 50, "images/enemy.png"));
@@ -54,33 +52,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
         itens.add(new Item(100, 100, 50, "images/item.png"));
 
-        timer = new Timer(10, this);
-        timer.start();
+        projectiles = new ArrayList<>();
+        projectiles.add(new Projectile(250, 250, 25, "images/projectile.png"));
 
-        // Cria um temporizador que dispara um projétil a cada 2 segundos
-        timer = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                teste();
-                repaint();
-            }
-        });
+        timer = new Timer(10, this);
         timer.start();
 
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
         setFocusable(true);
-    }
-
-    public void teste() {
-        for (int i = projectiles.size() - 1; i >= 0; i--) {
-            Projectile projectile = projectiles.get(i);
-            projectile.move();
-            if (projectile.getX() < 0 || projectile.getX() > getWidth() || projectile.getY() < 0 || projectile.getY() > getHeight()) {
-                projectiles.remove(i);
-            }
-        }
     }
 
     @Override
@@ -109,11 +90,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         int mouseY = e.getY();
         int dx = mouseX - character.getX();
         int dy = mouseY - character.getY();
-        character.setProjectileDirection(Math.atan2(dy, dx));
-        System.out.println(mouseX);
-        System.out.println(mouseY);
-        System.out.println(dx);
-        System.out.println(dy);
+        int direcaoX,direcaoY;
+        int angulo;
+        int x,y;
+        angulo = dy/dx;
+        direcaoX = angulo*250 + dx;
+        direcaoY = angulo*250 + dy;
+        //y = mx + (y1 - m * x1)
+        //x = (y - b) / m
+        
+        for (Projectile projectile : projectiles) {
+            projectile.setX(direcaoX);
+            projectile.setY(direcaoY);
+        }
+
     }
 
     private boolean upPressed, downPressed, leftPressed, rightPressed;
