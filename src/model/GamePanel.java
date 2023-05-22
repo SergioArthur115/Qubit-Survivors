@@ -40,6 +40,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private ArrayList<Item> itens;
     private ArrayList<Projectile> projectiles;
     private Timer timer;
+    private Timer timerTiro;
+    private double direcaoX, direcaoY;
 
     public GamePanel() {
 
@@ -57,6 +59,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
         timer = new Timer(10, this);
         timer.start();
+        timerTiro = new Timer(2000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("jogo");
+                for (Projectile projectile : projectiles) {
+                    projectile.setX((int) direcaoX);
+                    projectile.setY((int) direcaoY);
+                }
+            }
+        });
+        timerTiro.start();
 
         addKeyListener(this);
         addMouseListener(this);
@@ -88,21 +100,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     public void mouseMoved(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
-        int dx = mouseX - character.getX();
-        int dy = mouseY - character.getY();
-        int direcaoX,direcaoY;
-        int angulo;
-        int x,y;
-        angulo = dy/dx;
-        direcaoX = angulo*250 + dx;
-        direcaoY = angulo*250 + dy;
+        double dx = mouseX - character.getX();//inclinação da reta em X
+        double dy = mouseY - character.getY();//inclinação da reta em Y
+        double direcaoX, direcaoY;
+        double angulo;
+        int x, y;
+        
+        angulo = Math.atan2(dy, dx);
+        //System.out.println(angulo);
+        direcaoX = Math.cos(angulo);
+        direcaoY = Math.sin(angulo);
+        System.out.println("x = "+direcaoX);
+        System.out.println("y = "+direcaoY);
         //y = mx + (y1 - m * x1)
         //x = (y - b) / m
-        
-        for (Projectile projectile : projectiles) {
-            projectile.setX(direcaoX);
-            projectile.setY(direcaoY);
-        }
 
     }
 
