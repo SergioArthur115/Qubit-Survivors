@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private ArrayList<Projectile> projectiles;
     private Timer timer;
     private Timer timerTiro;
-    private double direcaoX, direcaoY;
+    private double directionX, directionY, testeX, testeY;
 
     public GamePanel() {
 
@@ -55,17 +55,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         itens.add(new Item(100, 100, 50, "images/item.png"));
 
         projectiles = new ArrayList<>();
-        projectiles.add(new Projectile(250, 250, 25, "images/projectile.png"));
 
         timer = new Timer(10, this);
         timer.start();
         timerTiro = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                projectiles.add(new Projectile(250, 250, 25, "images/projectile.png"));
+                testeX = directionX;
+                testeY = directionY;
                 System.out.println("jogo");
-                for (Projectile projectile : projectiles) {
-                    projectile.setX((int) direcaoX);
-                    projectile.setY((int) direcaoY);
-                }
             }
         });
         timerTiro.start();
@@ -102,18 +100,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         int mouseY = e.getY();
         double dx = mouseX - character.getX();//inclinação da reta em X
         double dy = mouseY - character.getY();//inclinação da reta em Y
-        double direcaoX, direcaoY;
-        double angulo;
-        int x, y;
-        
-        angulo = Math.atan2(dy, dx);
-        //System.out.println(angulo);
-        direcaoX = Math.cos(angulo);
-        direcaoY = Math.sin(angulo);
-        System.out.println("x = "+direcaoX);
-        System.out.println("y = "+direcaoY);
-        //y = mx + (y1 - m * x1)
-        //x = (y - b) / m
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        directionX = dx / distance;
+        directionY = dy / distance;
 
     }
 
@@ -181,6 +170,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
                 System.out.println("Game Over!");
                 timer.stop();
             }
+            for (Projectile projectile : projectiles) {
+                Rectangle projectileBounds = projectile.getBounds();
+                if (projectileBounds.intersects(enemyBounds)) {
+                    System.out.println("acertou");
+                    //projectiles.remove(projectile);
+                    //enemies.remove(enemy);
+                }
+            }
         }
         for (Item item : itens) {
             Rectangle ItemBounds = item.getBounds();
@@ -197,6 +194,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         // Obtenha a posição atual do personagem
         Point personPosition = new Point(character.getX(), character.getY());
 
+        for (Projectile projectile : projectiles) {
+            double speed = 10.0; // velocidade do projétil
+            double moveX = testeX * speed;
+            double moveY = testeY * speed;
+            projectile.move((int) moveX, (int) moveY);
+        }
+
         // Para cada inimigo, calcule a direção em que ele deve se mover
         for (Enemy enemy : enemies) {
             // Calcule a distância entre o personagem e o inimigo
@@ -212,7 +216,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             double moveY = directionY * speed;
 
             // Adicione o vetor de movimento à posição atual do inimigo para atualizar sua posição
-            enemy.move((int) moveX, (int) moveY);
+            //enemy.move((int) moveX, (int) moveY);
         }
 
         checkCollisions();

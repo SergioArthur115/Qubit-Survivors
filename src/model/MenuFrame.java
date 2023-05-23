@@ -25,7 +25,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         super("Menu");
         setTitle("Qubit Survivors");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(1010, 1010);
         setLocationRelativeTo(null);
         setResizable(false);
 
