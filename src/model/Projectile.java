@@ -22,6 +22,10 @@ public class Projectile {
     private int x, y, size;
     private BufferedImage image;
 
+    public Projectile() {
+    }
+    
+
     public Projectile(int x, int y, int size, String imagePath) {
         this.x = x;
         this.y = y;

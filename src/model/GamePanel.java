@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -41,7 +42,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private ArrayList<Projectile> projectiles;
     private Timer timer;
     private Timer timerTiro;
-    private double directionX, directionY, testeX, testeY;
+    private double directionX, directionY, dirX, dirY;
+    private double mouseX, mouseY, aux, auy;
+    private int projectileCount;
 
     public GamePanel() {
 
@@ -60,9 +63,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         timer.start();
         timerTiro = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                projectiles.add(new Projectile(250, 250, 25, "images/projectile.png"));
-                testeX = directionX;
-                testeY = directionY;
+                Projectile pj = new Projectile(character.getX(), character.getY(), 25, "images/projectile.png");
+                projectileCount++;
+                aux = mouseX;
+                auy = mouseY;
+                dirX = directionX;
+                dirY = directionY;
+                double speed = 20.0; // velocidade do projétil
+                double moveX = dirX * speed;
+                double moveY = dirY * speed;
+                pj.move((int) moveX, (int) moveY);
+                projectiles.add(pj);
                 System.out.println("jogo");
             }
         });
@@ -96,14 +107,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     }
 
     public void mouseMoved(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
+        mouseX = e.getX();
+        mouseY = e.getY();
         double dx = mouseX - character.getX();//inclinação da reta em X
         double dy = mouseY - character.getY();//inclinação da reta em Y
         double distance = Math.sqrt(dx * dx + dy * dy);
         directionX = dx / distance;
         directionY = dy / distance;
-
     }
 
     private boolean upPressed, downPressed, leftPressed, rightPressed;
@@ -163,29 +173,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private void checkCollisions() {
         Rectangle characterBounds = character.getBounds();
 
-        for (Enemy enemy : enemies) {
+        Iterator<Enemy> enemyIterator = enemies.iterator();
+        while (enemyIterator.hasNext()) {
+            Enemy enemy = enemyIterator.next();
             Rectangle enemyBounds = enemy.getBounds();
 
             if (characterBounds.intersects(enemyBounds)) {
                 System.out.println("Game Over!");
                 timer.stop();
             }
-            for (Projectile projectile : projectiles) {
+
+            Iterator<Projectile> projectileIterator = projectiles.iterator();
+            while (projectileIterator.hasNext()) {
+                Projectile projectile = projectileIterator.next();
                 Rectangle projectileBounds = projectile.getBounds();
                 if (projectileBounds.intersects(enemyBounds)) {
                     System.out.println("acertou");
-                    //projectiles.remove(projectile);
-                    //enemies.remove(enemy);
+                    projectileIterator.remove();
+                    enemyIterator.remove();
+                    projectileCount--;
                 }
             }
         }
-        for (Item item : itens) {
-            Rectangle ItemBounds = item.getBounds();
 
-            if (characterBounds.intersects(ItemBounds)) {
+        Iterator<Item> itemIterator = itens.iterator();
+        while (itemIterator.hasNext()) {
+            Item item = itemIterator.next();
+            Rectangle itemBounds = item.getBounds();
+
+            if (characterBounds.intersects(itemBounds)) {
                 System.out.println("Item!");
+                itemIterator.remove();
             }
         }
+
         repaint();
     }
 
@@ -193,12 +214,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     public void actionPerformed(ActionEvent e) {
         // Obtenha a posição atual do personagem
         Point personPosition = new Point(character.getX(), character.getY());
-
         for (Projectile projectile : projectiles) {
-            double speed = 10.0; // velocidade do projétil
-            double moveX = testeX * speed;
-            double moveY = testeY * speed;
-            projectile.move((int) moveX, (int) moveY);
+            if (projectileCount > 20) {
+
+                double speed = 20.0; // velocidade do projétil
+                double moveX = dirX * speed;
+                double moveY = dirY * speed;
+                projectile.move((int) moveX, (int) moveY);
+            } else {
+                double speed = 20.0; // velocidade do projétil
+                double moveX = aux * speed;
+                double moveY = auy * speed;
+                projectile.move((int) moveX, (int) moveY);
+            }
         }
 
         // Para cada inimigo, calcule a direção em que ele deve se mover
