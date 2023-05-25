@@ -21,15 +21,18 @@ public class Projectile {
 
     private int x, y, size;
     private BufferedImage image;
+    private double dirX,dirY;
 
     public Projectile() {
     }
     
 
-    public Projectile(int x, int y, int size, String imagePath) {
+    public Projectile(int x, int y, int size, String imagePath,double dirX,double dirY) {
         this.x = x;
         this.y = y;
         this.size = size;
+        this.dirX=dirX;
+        this.dirY=dirY;
 
         try {
             image = ImageIO.read(new File(imagePath));
@@ -38,9 +41,9 @@ public class Projectile {
         }
     }
 
-    public void move(int dx, int dy) {
-        x += dx;
-        y += dy;
+    public void move(double dirX, double dirY) {
+        x += dirX;
+        y += dirY;
     }
 
     public void draw(Graphics g) {
@@ -66,5 +69,20 @@ public class Projectile {
     public void setY(int y) {
         this.y = y;
     }
-    
+
+    public double getDirX() {
+        return dirX;
+    }
+
+    public void setDirX(double dirX) {
+        this.dirX = dirX;
+    }
+
+    public double getDirY() {
+        return dirY;
+    }
+
+    public void setDirY(double dirY) {
+        this.dirY = dirY;
+    } 
 }
