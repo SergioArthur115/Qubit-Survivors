@@ -28,7 +28,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import services.ItemServicos;
 import services.ServicosFactory;
@@ -62,9 +65,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         timer.start();
         timerTiro = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dirX=directionX;
-                dirY=directionY;
-                projectiles.add(new Projectile(character.getX(), character.getY(), 25, "images/projectile.png",dirX,dirY));
+                dirX = directionX;
+                dirY = directionY;
+                projectiles.add(new Projectile(character.getX(), character.getY(), 25, "images/projectile.png", dirX, dirY));
             }
         });
         timerTiro.start();
@@ -169,7 +172,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             Rectangle enemyBounds = enemy.getBounds();
 
             if (characterBounds.intersects(enemyBounds)) {
-                System.out.println("Game Over!");
+                JOptionPane.showMessageDialog(this, "Game Over!");
+                //setContentPane(MenuFrame.mainPanel);
                 timer.stop();
             }
 

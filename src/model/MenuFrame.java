@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 
 public class MenuFrame extends JFrame implements ActionListener {
 
+    public static JPanel mainPanel;
     private JButton jogarButton;
 
     public MenuFrame() {
@@ -34,7 +35,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         jogarButton.addActionListener(this);
 
         // Adiciona o botão ao painel principal
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(jogarButton, BorderLayout.CENTER);
 
         // Define o painel principal como o conteúdo do frame
