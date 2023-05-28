@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import static model.MenuFrame.mainPanel;
 import services.ItemServicos;
 import services.ServicosFactory;
 
@@ -173,7 +174,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
             if (characterBounds.intersects(enemyBounds)) {
                 JOptionPane.showMessageDialog(this, "Game Over!");
-                //setContentPane(MenuFrame.mainPanel);
+                showPanel(mainPanel);
                 timer.stop();
             }
 

@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 
 public class MenuFrame extends JFrame implements ActionListener {
 
-    public static JPanel mainPanel;
+    public static JPanel mainPanel,gamePanel;
     private JButton jogarButton;
 
     public MenuFrame() {
@@ -40,6 +40,17 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         // Define o painel principal como o conteúdo do frame
         setContentPane(mainPanel);
+    }
+
+    public void showPanel(JPanel panel) {
+        // Exibe o painel recebido como parâmetro e esconde o outro painel
+        if (panel == mainPanel) {
+            mainPanel.setVisible(true);
+            gamePanel.setVisible(false);
+        } else if (panel == gamePanel) {
+            mainPanel.setVisible(false);
+            gamePanel.setVisible(true);
+        }
     }
 
     @Override
