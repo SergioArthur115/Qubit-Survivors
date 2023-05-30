@@ -11,6 +11,7 @@ package model;
  */
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
@@ -29,11 +30,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import static model.MenuFrame.mainPanel;
+import static model.MenuFrame.showPanel;
 import services.ItemServicos;
 import services.ServicosFactory;
 
@@ -48,9 +51,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private Timer timerTiro;
     private double directionX, directionY, dirX, dirY;
     private double mouseX, mouseY;
+    private int score = 0;
+    private JLabel scoreLabel;
 
     public GamePanel() {
-
+        MenuFrame.gamePanel = this;
         itens = itemS.BuscarItens();
         character = new Character(250, 250, 50);
 
@@ -72,6 +77,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             }
         });
         timerTiro.start();
+        scoreLabel = new JLabel("Score: " + score);
+        scoreLabel.setPreferredSize(new Dimension(100, 50));
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        scoreLabel.setForeground(Color.white);
+        add(scoreLabel);
 
         addKeyListener(this);
         addMouseListener(this);
@@ -183,7 +193,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
                 Projectile projectile = projectileIterator.next();
                 Rectangle projectileBounds = projectile.getBounds();
                 if (projectileBounds.intersects(enemyBounds)) {
-                    System.out.println("acertou");
+                    score += 10;
+                    scoreLabel.setText("Score: " + score);
                     projectileIterator.remove();
                     enemyIterator.remove();
                 }
@@ -196,7 +207,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             Rectangle itemBounds = item.getBounds();
 
             if (characterBounds.intersects(itemBounds)) {
-                System.out.println("Item!");
+                score += 10;
+                scoreLabel.setText("Score: " + score);
                 itemIterator.remove();
             }
         }
@@ -235,6 +247,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
         checkCollisions();
 
+    }
+
+    public boolean isGameOver() {
+        // Check if the player's character has collided with an enemy
+        for (Enemy enemy : enemies) {
+            if (character.getBounds().intersects(enemy.getBounds())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
