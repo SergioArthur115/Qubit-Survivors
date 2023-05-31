@@ -43,6 +43,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     }
 
     public static void showPanel(JPanel panel) {
+        MenuFrame showPanel = new MenuFrame();
         //String[] args = null;
         //main(args);
         // Exibe o painel recebido como parâmetro e esconde o outro painel
@@ -51,7 +52,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             gamePanel.setVisible(false);
             mainPanel.setVisible(true);
             mainPanel.requestFocusInWindow();
-            //criarBotao();
+            showPanel.criarBotao();
             System.out.println("teste2");
             //String[] args = null;
             // main(args);
@@ -65,12 +66,11 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     public void criarBotao() {
         // Cria o botão "Jogar"
-        mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel();
         jogarButton = new JButton("Jogar");
         jogarButton.addActionListener(this);
-        jogarButton.setSize(new Dimension(100, 50));
-        jogarButton.setLocation(50, 100);
-        //jogarButton.setSize(100, 50);
+        jogarButton.setSize(new Dimension(400, 400));
+        jogarButton.setLocation(400, 400);
         mainPanel.add(jogarButton);
     }
 

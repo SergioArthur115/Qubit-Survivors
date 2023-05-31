@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,6 +50,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private ArrayList<Projectile> projectiles;
     private Timer timer;
     private Timer timerTiro;
+    private Timer timerInimigo;
+    private Timer timerItem;
     private double directionX, directionY, dirX, dirY;
     private double mouseX, mouseY;
     private int score = 0;
@@ -57,18 +60,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     public GamePanel() {
         MenuFrame.gamePanel = this;
         itens = itemS.BuscarItens();
-        character = new Character(250, 250, 50);
+        timer = new Timer(10, this);
+        timer.start();
+        Random gerador = new Random();
+        character = new Character(350, 350, 50);
 
         enemies = new ArrayList<>();
-        enemies.add(new Enemy(100, 100, 50, "images/enemy.png"));
-        enemies.add(new Enemy(400, 400, 50, "images/enemy1.png"));
-
-        itens.add(new Item(100, 100, 50, "images/item.png"));
+        timerInimigo = new Timer(2200, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enemies.add(new Enemy(gerador.nextInt(800), gerador.nextInt(800), 50, "images/enemy.png"));
+                enemies.add(new Enemy(gerador.nextInt(800), gerador.nextInt(800), 50, "images/enemy1.png"));
+            }
+        });
+        timerInimigo.start();
+        
+        timerItem = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                itens.add(new Item(gerador.nextInt(800), gerador.nextInt(800), 50, "images/item.png"));
+            }
+        });
+        timerItem.start();
 
         projectiles = new ArrayList<>();
 
-        timer = new Timer(10, this);
-        timer.start();
         timerTiro = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dirX = directionX;
