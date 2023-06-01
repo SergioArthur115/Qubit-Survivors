@@ -6,6 +6,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -18,13 +19,13 @@ public class Partida {
     private String nomeJogador;
     private LocalDate dataPartida;
     private int pontuacao;
-    private LocalDate duracao;
+    private LocalTime duracao;
     private Jogador idJogador;
 
     public Partida() {
     }
 
-    public Partida(int idPartida, String nomeMapa, String nomeJogador, LocalDate dataPartida, int pontuacao, LocalDate duracao, Jogador idJogador) {
+    public Partida(int idPartida, String nomeMapa, String nomeJogador, LocalDate dataPartida, int pontuacao, LocalTime duracao, Jogador idJogador) {
         this.idPartida = idPartida;
         this.nomeMapa = nomeMapa;
         this.nomeJogador = nomeJogador;
@@ -74,11 +75,11 @@ public class Partida {
         this.pontuacao = pontuacao;
     }
 
-    public LocalDate getDuracao() {
+    public LocalTime getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(LocalDate duracao) {
+    public void setDuracao(LocalTime duracao) {
         this.duracao = duracao;
     }
 

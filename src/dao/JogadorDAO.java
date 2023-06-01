@@ -33,12 +33,12 @@ public class JogadorDAO {
     }
 
     public int getIDJogadorDAO(String nome_jogador) {
-        int id_jogador=0;
+        int id_jogador = 0;
         try {
- 
+
             Connection con = Conexao.getConexao();//busca conexão com o BD
             String sql;
-            sql = "select max(id_jogador) from jogadores where nome_jogador = ?";
+            sql = "select max(id_jogador) as id_jogador from jogadores where nome_jogador = ?";
             PreparedStatement pst = con.prepareStatement(sql);//cria espaço de trabalho SQL
             pst.setString(1, nome_jogador);
             ResultSet rs = pst.executeQuery();

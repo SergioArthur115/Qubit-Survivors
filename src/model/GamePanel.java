@@ -26,6 +26,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -39,11 +42,15 @@ import javax.swing.Timer;
 import static model.MenuFrame.mainPanel;
 import static model.MenuFrame.showPanel;
 import services.ItemServicos;
+import services.JogadorServicos;
+import services.PartidaServicos;
 import services.ServicosFactory;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 
     ItemServicos itemS = ServicosFactory.getItemServicos();
+    PartidaServicos partidaS = ServicosFactory.getPartidaServicos();
+    JogadorServicos jogadorS = ServicosFactory.getJogadorServicos();
     private Character character;
     private ArrayList<Enemy> enemies;
     private ArrayList<Item> itens;
@@ -54,13 +61,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private Timer timerItem;
     private double directionX, directionY, dirX, dirY;
     private double mouseX, mouseY;
-    private int score = 0;
+    private int score = 0,idJogador=0;
     private JLabel scoreLabel;
+    private LocalTime duracao;
+    private LocalDate dataPartida;
+    private String playerName;
 
     public GamePanel() {
+        playerName = JOptionPane.showInputDialog(this, "Please enter your name:");
+        Jogador j = new Jogador();
+        j.setNomeJogador(playerName);
+        jogadorS.addJogador(j);
+        idJogador = jogadorS.getIDJogadorDAO(playerName);
+        System.out.println(idJogador);
         MenuFrame.gamePanel = this;
         itens = itemS.BuscarItens();
         timer = new Timer(10, this);
+        dataPartida=LocalDate.now();
+        duracao = LocalTime.now();
         timer.start();
         Random gerador = new Random();
         character = new Character(350, 350, 50);
@@ -74,7 +92,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             }
         });
         timerInimigo.start();
-        
+
         timerItem = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -200,7 +218,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
             if (characterBounds.intersects(enemyBounds)) {
                 JOptionPane.showMessageDialog(this, "Game Over!");
-                showPanel(mainPanel);
+                LocalTime duracao1 = LocalTime.now();
+                duracao.minusMinutes(30);
+                System.out.println("");
+                //Partida p = new Partida(0, "Grass", playerName, dataPartida, score, duracao, idJogador);
+                //showPanel(mainPanel);
+                MenuFrame.teste();
                 timer.stop();
             }
 

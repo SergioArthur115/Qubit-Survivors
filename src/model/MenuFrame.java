@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
+import javax.swing.event.InternalFrameListener;
 
 public class MenuFrame extends JFrame implements ActionListener {
 
@@ -33,9 +35,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         setResizable(false);
 
         // Adiciona o botão ao painel principal
-        
         criarBotao();
-        
 
         // Define o painel principal como o conteúdo do frame
         setContentPane(mainPanel);
@@ -43,25 +43,30 @@ public class MenuFrame extends JFrame implements ActionListener {
     }
 
     public static void showPanel(JPanel panel) {
-        MenuFrame showPanel = new MenuFrame();
-        //String[] args = null;
-        //main(args);
-        // Exibe o painel recebido como parâmetro e esconde o outro painel
+        JFrame currentFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+        currentFrame.dispose();
+        MenuFrame newFrame = new MenuFrame();
         if (panel == mainPanel) {
-            System.out.println("teste 1");
-            gamePanel.setVisible(false);
+            if (gamePanel != null) {
+                gamePanel.setVisible(false);
+            }
             mainPanel.setVisible(true);
             mainPanel.requestFocusInWindow();
-            showPanel.criarBotao();
-            System.out.println("teste2");
-            //String[] args = null;
-            // main(args);
+            newFrame.criarBotao();
         } else if (panel == gamePanel) {
-            mainPanel.setVisible(false);
+            if (gamePanel != null) {
+                mainPanel.setVisible(false);
+            }
             gamePanel.setVisible(true);
             gamePanel.requestFocusInWindow();
         }
-
+    }
+    public static void teste(){
+        gamePanel.setEnabled(false);
+        mainPanel.setEnabled(true);
+        gamePanel.setVisible(false);
+        mainPanel.setVisible(true);
+        //MenuFrame.criarBotao();
     }
 
     public void criarBotao() {
