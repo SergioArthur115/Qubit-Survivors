@@ -40,4 +40,7 @@ INSERT INTO itens (nome_item,descricao_item,tipo_item,raridade_item,carac_item) 
 	('Pistola de Qubits','Uma pistola feita de qubits','Arma','Épico','Dano = 10 && frequencia = 2.0'),
 	('Botas de Qubit','Botas feitas de Qubits','Utilidade','Lendário','velocidade +=2');
     
-    select * from itens;
+select * from jogadores;
+select * from partidas;
+select * from itens;
+ALTER TABLE partidas MODIFY duracao TIME;

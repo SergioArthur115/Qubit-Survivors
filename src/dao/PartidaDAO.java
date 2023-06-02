@@ -9,6 +9,7 @@ import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Time;
 import model.Partida;
 /**
  *
@@ -25,9 +26,8 @@ public class PartidaDAO {
             java.sql.Date dataPartida = java.sql.Date.valueOf(pVO.getDataPartida());
             pst.setDate(2, dataPartida);
             pst.setInt(3, pVO.getPontuacao());
-            java.sql.Date duracao = java.sql.Date.valueOf(pVO.getDuracao());
-            pst.setDate(4, duracao);
-            pst.setInt(5, pVO.getIdJogador().getIdJogador());
+            pst.setTime(4, Time.valueOf(pVO.getDuracao()));
+            pst.setInt(5, pVO.getIdJogador());
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao adicionar partida ao banco!\n"

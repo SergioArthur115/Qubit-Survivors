@@ -26,6 +26,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAmount;
@@ -63,22 +64,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private double mouseX, mouseY;
     private int score = 0,idJogador=0;
     private JLabel scoreLabel;
-    private LocalTime duracao;
+    private LocalTime startTime;
     private LocalDate dataPartida;
     private String playerName;
+    private Jogador j;
 
     public GamePanel() {
         playerName = JOptionPane.showInputDialog(this, "Please enter your name:");
-        Jogador j = new Jogador();
+        j = new Jogador();
         j.setNomeJogador(playerName);
         jogadorS.addJogador(j);
-        idJogador = jogadorS.getIDJogadorDAO(playerName);
-        System.out.println(idJogador);
+        j.setIdJogador(jogadorS.getIDJogadorDAO(playerName));
         MenuFrame.gamePanel = this;
         itens = itemS.BuscarItens();
         timer = new Timer(10, this);
         dataPartida=LocalDate.now();
-        duracao = LocalTime.now();
+        startTime=LocalTime.now();
+        //duracao = LocalTime.now();
         timer.start();
         Random gerador = new Random();
         character = new Character(350, 350, 50);
@@ -218,10 +220,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
             if (characterBounds.intersects(enemyBounds)) {
                 JOptionPane.showMessageDialog(this, "Game Over!");
-                LocalTime duracao1 = LocalTime.now();
-                duracao.minusMinutes(30);
-                System.out.println("");
-                //Partida p = new Partida(0, "Grass", playerName, dataPartida, score, duracao, idJogador);
+                LocalTime endTime = LocalTime.now();
+                Duration duration = Duration.between(startTime, endTime);
+                LocalTime duracao = LocalTime.MIN.plus(duration);
+                Partida p = new Partida(0, "Grass", playerName, dataPartida, score, duracao, jogadorS.getIDJogadorDAO(playerName));
+                partidaS.addPartida(p);
                 //showPanel(mainPanel);
                 MenuFrame.teste();
                 timer.stop();
@@ -281,7 +284,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             double moveY = directionY * speed;
 
             // Adicione o vetor de movimento à posição atual do inimigo para atualizar sua posição
-            enemy.move((int) moveX, (int) moveY);
+            //enemy.move((int) moveX, (int) moveY);
         }
 
         checkCollisions();
