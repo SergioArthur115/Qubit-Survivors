@@ -40,8 +40,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import static model.MenuFrame.gamePanel;
 import static model.MenuFrame.mainPanel;
-import static model.MenuFrame.showPanel;
+import qubitsurvivors.QubitSurvivors;
 import services.ItemServicos;
 import services.JogadorServicos;
 import services.PartidaServicos;
@@ -62,12 +63,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private Timer timerItem;
     private double directionX, directionY, dirX, dirY;
     private double mouseX, mouseY;
-    private int score = 0,idJogador=0;
+    private int score = 0, idJogador = 0;
     private JLabel scoreLabel;
     private LocalTime startTime;
     private LocalDate dataPartida;
     private String playerName;
     private Jogador j;
+    private boolean menuStatus = false, go = false;
 
     public GamePanel() {
         playerName = JOptionPane.showInputDialog(this, "Please enter your name:");
@@ -78,8 +80,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         MenuFrame.gamePanel = this;
         itens = itemS.BuscarItens();
         timer = new Timer(10, this);
-        dataPartida=LocalDate.now();
-        startTime=LocalTime.now();
+        dataPartida = LocalDate.now();
+        startTime = LocalTime.now();
         //duracao = LocalTime.now();
         timer.start();
         Random gerador = new Random();
@@ -225,9 +227,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
                 LocalTime duracao = LocalTime.MIN.plus(duration);
                 Partida p = new Partida(0, "Grass", playerName, dataPartida, score, duracao, jogadorS.getIDJogadorDAO(playerName));
                 partidaS.addPartida(p);
-                //showPanel(mainPanel);
-                MenuFrame.teste();
+                //MenuFrame menuFrame = new MenuFrame();
+                //menuFrame.showPanel(MenuFrame.mainPanel);
+                QubitSurvivors.menuFrame.dispose();
+                QubitSurvivors.menuFrame = new MenuFrame();
+                QubitSurvivors.menuFrame.setVisible(true);
+                
+                menuStatus = true;
+                go = true;
+                MenuCheck mc = new MenuCheck();
+                mc.verifyPanel(menuStatus);
+                mc.criarBotao();
                 timer.stop();
+                break;
             }
 
             Iterator<Projectile> projectileIterator = projectiles.iterator();
@@ -284,7 +296,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             double moveY = directionY * speed;
 
             // Adicione o vetor de movimento à posição atual do inimigo para atualizar sua posição
-            //enemy.move((int) moveX, (int) moveY);
+            enemy.move((int) moveX, (int) moveY);
         }
 
         checkCollisions();
@@ -293,12 +305,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
     public boolean isGameOver() {
         // Check if the player's character has collided with an enemy
-        for (Enemy enemy : enemies) {
-            if (character.getBounds().intersects(enemy.getBounds())) {
-                return true;
-            }
-        }
-        return false;
+
+        return go;
     }
 
     @Override

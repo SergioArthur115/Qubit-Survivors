@@ -29,54 +29,52 @@ public class MenuFrame extends JFrame implements ActionListener {
         // Configura o frame
         super("Menu");
         setTitle("Qubit Survivors");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 800);
         setLocationRelativeTo(null);
         setResizable(false);
 
         // Adiciona o botão ao painel principal
-        criarBotao();
-
-        // Define o painel principal como o conteúdo do frame
-        setContentPane(mainPanel);
-        setVisible(true);
-    }
-
-    public static void showPanel(JPanel panel) {
-        JFrame currentFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-        currentFrame.dispose();
-        MenuFrame newFrame = new MenuFrame();
-        if (panel == mainPanel) {
-            if (gamePanel != null) {
-                gamePanel.setVisible(false);
-            }
-            mainPanel.setVisible(true);
-            mainPanel.requestFocusInWindow();
-            newFrame.criarBotao();
-        } else if (panel == gamePanel) {
-            if (gamePanel != null) {
-                mainPanel.setVisible(false);
-            }
-            gamePanel.setVisible(true);
-            gamePanel.requestFocusInWindow();
-        }
-    }
-    public static void teste(){
-        gamePanel.setEnabled(false);
-        mainPanel.setEnabled(true);
-        gamePanel.setVisible(false);
-        mainPanel.setVisible(true);
-        //MenuFrame.criarBotao();
-    }
-
-    public void criarBotao() {
-        // Cria o botão "Jogar"
         mainPanel = new JPanel();
         jogarButton = new JButton("Jogar");
         jogarButton.addActionListener(this);
         jogarButton.setSize(new Dimension(400, 400));
         jogarButton.setLocation(400, 400);
         mainPanel.add(jogarButton);
+        if (jogarButton.isEnabled()) {
+            System.out.println("jogarButton valid");
+        } else {
+            System.out.println("jogarButton não valid");
+        }
+
+        // Define o painel principal como o conteúdo do frame
+        setContentPane(mainPanel);
+        setVisible(true);
+    }
+
+    public void showPanel(JPanel panel) {
+        if (panel == mainPanel) {
+            getContentPane().remove(gamePanel);
+            getContentPane().add(mainPanel);
+            mainPanel.setVisible(true);
+            mainPanel.requestFocusInWindow();
+        } else if (panel == gamePanel) {
+            getContentPane().remove(mainPanel);
+            getContentPane().add(gamePanel);
+            gamePanel.setVisible(true);
+            gamePanel.requestFocusInWindow();
+        }
+        revalidate();
+        repaint();
+        dispose();
+    }
+
+    public static void teste() {
+        gamePanel.setEnabled(false);
+        mainPanel.setEnabled(true);
+        gamePanel.setVisible(false);
+        mainPanel.setVisible(true);
+        //MenuFrame.criarBotao();   
     }
 
     @Override
@@ -87,7 +85,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         revalidate();
         gamePanel.requestFocusInWindow();
         if (gamePanel.isGameOver()) {
-            showPanel(mainPanel);
+            setContentPane(mainPanel);
         }
     }
 
