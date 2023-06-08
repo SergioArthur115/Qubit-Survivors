@@ -72,6 +72,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
     public GamePanel() {
         playerName = JOptionPane.showInputDialog(this, "Please enter your name:");
+        while (playerName == null || playerName.trim().isEmpty()) {
+            if (playerName == null) {
+                QubitSurvivors.menuFrame.dispose();
+                QubitSurvivors.menuFrame = new MenuFrame();
+                QubitSurvivors.menuFrame.setVisible(true);
+                return; // sai do construtor se o usuário clicou em "Cancelar"
+            }
+            JOptionPane.showMessageDialog(this, "Please enter a valid name.");
+            playerName = JOptionPane.showInputDialog(this, "Please enter your name:");
+        }
         j = new Jogador();
         j.setNomeJogador(playerName);
         jogadorS.addJogador(j);
@@ -89,8 +99,49 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         timerInimigo = new Timer(2200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                enemies.add(new Enemy(gerador.nextInt(800), gerador.nextInt(800), 50, "images/enemy.png"));
-                enemies.add(new Enemy(gerador.nextInt(800), gerador.nextInt(800), 50, "images/enemy1.png"));
+                int x1, y1, x2, y2;
+                Random gerador1 = new Random();
+                Random gerador2 = new Random();
+                int side1 = gerador1.nextInt(4); // gera um número aleatório entre 0 e 3
+                int side2 = gerador2.nextInt(4); // gera um número aleatório entre 0 e 3
+                switch (side1) {
+                    case 0: // lado esquerdo
+                        x1 = 0;
+                        y1 = gerador.nextInt(getHeight());
+                        break;
+                    case 1: // lado direito
+                        x1 = getWidth();
+                        y1 = gerador.nextInt(getHeight());
+                        break;
+                    case 2: // topo
+                        x1 = gerador.nextInt(getWidth());
+                        y1 = 0;
+                        break;
+                    default: // base
+                        x1 = gerador.nextInt(getWidth());
+                        y1 = getHeight();
+                        break;
+                }
+                switch (side2) {
+                    case 0: // lado esquerdo
+                        x2 = 0;
+                        y2 = gerador.nextInt(getHeight());
+                        break;
+                    case 1: // lado direito
+                        x2 = getWidth();
+                        y2 = gerador.nextInt(getHeight());
+                        break;
+                    case 2: // topo
+                        x2 = gerador.nextInt(getWidth());
+                        y2 = 0;
+                        break;
+                    default: // base
+                        x2 = gerador.nextInt(getWidth());
+                        y2 = getHeight();
+                        break;
+                }
+                enemies.add(new Enemy(x1, y1, 50, "images/enemy.png"));
+                enemies.add(new Enemy(x2, y2, 50, "images/enemy1.png"));
             }
         });
         timerInimigo.start();
@@ -219,7 +270,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             Rectangle enemyBounds = enemy.getBounds();
 
             if (characterBounds.intersects(enemyBounds)) {
-                JOptionPane.showMessageDialog(this, "Game Over!");
+                JOptionPane.showMessageDialog(this, "Game Over!" + "\nScore:" + score);
                 LocalTime endTime = LocalTime.now();
                 Duration duration = Duration.between(startTime, endTime);
                 LocalTime duracao = LocalTime.MIN.plus(duration);
@@ -236,6 +287,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             while (projectileIterator.hasNext()) {
                 Projectile projectile = projectileIterator.next();
                 Rectangle projectileBounds = projectile.getBounds();
+                if (projectile.getX() < 0 || projectile.getX() > 800 || projectile.getY() < 0 || projectile.getY() > 800) {
+                    projectileIterator.remove();
+                }
                 if (projectileBounds.intersects(enemyBounds)) {
                     score += 10;
                     scoreLabel.setText("Score: " + score);
@@ -279,7 +333,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
             // Determine a direção em que o inimigo deve se mover
             double directionX = (personPosition.x - enemy.getX()) / distance;
             double directionY = (personPosition.y - enemy.getY()) / distance;
-
+            
             // Multiplique o vetor de direção pelo valor da velocidade dos inimigos
             double speed = 5.0; // velocidade dos inimigos
             double moveX = directionX * speed;
