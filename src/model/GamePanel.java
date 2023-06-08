@@ -69,7 +69,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     private LocalDate dataPartida;
     private String playerName;
     private Jogador j;
-    private boolean menuStatus = false, go = false;
 
     public GamePanel() {
         playerName = JOptionPane.showInputDialog(this, "Please enter your name:");
@@ -82,7 +81,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         timer = new Timer(10, this);
         dataPartida = LocalDate.now();
         startTime = LocalTime.now();
-        //duracao = LocalTime.now();
         timer.start();
         Random gerador = new Random();
         character = new Character(350, 350, 50);
@@ -227,17 +225,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
                 LocalTime duracao = LocalTime.MIN.plus(duration);
                 Partida p = new Partida(0, "Grass", playerName, dataPartida, score, duracao, jogadorS.getIDJogadorDAO(playerName));
                 partidaS.addPartida(p);
-                //MenuFrame menuFrame = new MenuFrame();
-                //menuFrame.showPanel(MenuFrame.mainPanel);
                 QubitSurvivors.menuFrame.dispose();
                 QubitSurvivors.menuFrame = new MenuFrame();
                 QubitSurvivors.menuFrame.setVisible(true);
-                
-                menuStatus = true;
-                go = true;
-                MenuCheck mc = new MenuCheck();
-                mc.verifyPanel(menuStatus);
-                mc.criarBotao();
                 timer.stop();
                 break;
             }
@@ -301,12 +291,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
         checkCollisions();
 
-    }
-
-    public boolean isGameOver() {
-        // Check if the player's character has collided with an enemy
-
-        return go;
     }
 
     @Override

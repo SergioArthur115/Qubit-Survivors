@@ -41,40 +41,10 @@ public class MenuFrame extends JFrame implements ActionListener {
         jogarButton.setSize(new Dimension(400, 400));
         jogarButton.setLocation(400, 400);
         mainPanel.add(jogarButton);
-        if (jogarButton.isEnabled()) {
-            System.out.println("jogarButton valid");
-        } else {
-            System.out.println("jogarButton não valid");
-        }
 
         // Define o painel principal como o conteúdo do frame
         setContentPane(mainPanel);
         setVisible(true);
-    }
-
-    public void showPanel(JPanel panel) {
-        if (panel == mainPanel) {
-            getContentPane().remove(gamePanel);
-            getContentPane().add(mainPanel);
-            mainPanel.setVisible(true);
-            mainPanel.requestFocusInWindow();
-        } else if (panel == gamePanel) {
-            getContentPane().remove(mainPanel);
-            getContentPane().add(gamePanel);
-            gamePanel.setVisible(true);
-            gamePanel.requestFocusInWindow();
-        }
-        revalidate();
-        repaint();
-        dispose();
-    }
-
-    public static void teste() {
-        gamePanel.setEnabled(false);
-        mainPanel.setEnabled(true);
-        gamePanel.setVisible(false);
-        mainPanel.setVisible(true);
-        //MenuFrame.criarBotao();   
     }
 
     @Override
@@ -84,9 +54,6 @@ public class MenuFrame extends JFrame implements ActionListener {
         setContentPane(gamePanel);
         revalidate();
         gamePanel.requestFocusInWindow();
-        if (gamePanel.isGameOver()) {
-            setContentPane(mainPanel);
-        }
     }
 
     public static void main(String[] args) {
